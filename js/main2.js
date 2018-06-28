@@ -34,15 +34,15 @@ function init() {
 
 
     // LIGHTS
-    spotLight = new THREE.SpotLight(0xffffff, 15, 19.1);
+    spotLight = new THREE.SpotLight(0xC5C584, 15, 20);
     spotLight.position.set( 5, 10, 15 );
-    spotLight.angle = 0.08;
+    spotLight.angle = 0.09;
     spotLight.penumbra = 1;
-    spotLight.decay = 1.6;
+    spotLight.decay = 1.5;
 
     scene.add( spotLight );
 
-    spotLight2 = new THREE.SpotLight({color: 0xB2B2B2, intensity: 1, angle: 0});
+    spotLight2 = new THREE.SpotLight(0xB2B2B2);
     spotLight2.position.set( 5, 10, -15 );
 
     scene.add( spotLight2 );
