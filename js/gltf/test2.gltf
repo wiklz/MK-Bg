@@ -191,7 +191,7 @@
     "scene" : 0,
     "scenes" : [
         {
-            "name" : "LogoScene",
+            "name" : "Scene",
             "nodes" : [
                 0
             ]
