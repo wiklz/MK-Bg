@@ -38,7 +38,7 @@ function init() {
     spotLight.position.set( 5, 10, 15 );
     spotLight.angle = 0.08;
     spotLight.penumbra = 1;
-    spotLight.decay = 2;
+    spotLight.decay = 1.6;
 
     scene.add( spotLight );
 
