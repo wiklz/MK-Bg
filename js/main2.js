@@ -1,16 +1,37 @@
 if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
 var container, stats, controls;
-var camera, scene, renderer, light, spotLight, spotLight2, mesh, mousePos;
+var camera, scene, renderer, light, spotLight, spotLight2, mesh, bg, mousePos, light;
 
 
-init();
-animate();
+
 
 
 function init() {
     container = document.createElement( 'div' );
     document.body.appendChild( container );
+
+    // SCENE
+    scene = new THREE.Scene();
+
+    // MK LOGO
+    var loader = new THREE.GLTFLoader();
+    loader.load( './js/gltf/test2.gltf', function ( gltf ) {
+        mesh = gltf.scene;
+
+
+        scene.add( gltf.scene );
+
+    } );
+
+    var loaderBack = new THREE.GLTFLoader();
+    loaderBack.load( './js/gltf/test3.gltf', function ( gltf2 ) {
+        bg = gltf2.scene;
+        bg.receiveShadow = true;
+
+        scene.add( gltf2.scene );
+
+    } );
 
     // CAMERA
     camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.25, 100 );
@@ -19,31 +40,28 @@ function init() {
     // CONTROLS
     controls = new THREE.OrbitControls( camera );
     controls.target.set( 0, -0.2, -0.2 );
-    controls.enableZoom = false;
-    controls.enablePan = false;
-    controls.rotateSpeed = 0.05;
-    controls.minAzimuthAngle = - Math.PI / 6;
-    controls.maxAzimuthAngle = Math.PI / 6;
-    controls.minPolarAngle = Math.PI / 3;
-    controls.maxPolarAngle = Math.PI / 1.5;
-    // controls.enabled = false;
+    // controls.enableZoom = true;
+    // controls.enablePan = false;
+    // controls.rotateSpeed = 0.05;
+    // controls.minAzimuthAngle = - Math.PI / 6;
+    // controls.maxAzimuthAngle = Math.PI / 6;
+    // controls.minPolarAngle = Math.PI / 3;
+    // controls.maxPolarAngle = Math.PI / 1.5;
+    controls.enabled = false;
     controls.update();
 
-    // SCENE
-    scene = new THREE.Scene();
-
-
     // LIGHTS
-    spotLight = new THREE.SpotLight(0xC5C584, 15, 20);
-    spotLight.position.set( 5, 10, 15 );
-    spotLight.angle = 0.09;
+    spotLight = new THREE.SpotLight(0xC5C584, 0.7, 29.5);
+    spotLight.position.set( 1, 0.5, 5 );
+    spotLight.angle = 0.25;
     spotLight.penumbra = 1;
     spotLight.decay = 1.5;
+    spotLight.castShadow = true;
+
 
     scene.add( spotLight );
 
-    spotLight2 = new THREE.SpotLight(0xB2B2B2);
-    spotLight2.position.set( 5, 10, -15 );
+    spotLight2 = new THREE.AmbientLight(0xB2B2B2, 0.05);
 
     scene.add( spotLight2 );
 
@@ -72,21 +90,12 @@ function init() {
     // scene.add( spotLightHelper2 );
     // scene.add( axesHelper );
 
-
-
-    // MK LOGO
-    var loader = new THREE.GLTFLoader();
-    loader.load( './js/gltf/test2.gltf', function ( gltf ) {
-        mesh = gltf.scene;
-
-        scene.add( gltf.scene );
-
-    } );
-
     renderer = new THREE.WebGLRenderer( { antialias: true } );
     renderer.setPixelRatio( window.devicePixelRatio );
     renderer.setSize( window.innerWidth, window.innerHeight );
     renderer.gammaOutput = true;
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     container.appendChild( renderer.domElement );
     window.addEventListener( 'resize', onWindowResize, false );
 }
@@ -102,8 +111,11 @@ function onWindowResize() {
 function animate() {
     window.addEventListener( 'resize', onWindowResize, false );
     requestAnimationFrame( animate );
-
+    if(bg){if(bg.children[0]){bg.children[0].receiveShadow = true;}}
+    if(bg.children[0]){bg.children[0].receiveShadow = true;}
     if (mesh) {
+        spotLight.target = mesh;
+        if(mesh.children[0]){mesh.children[0].castShadow = true;}
         window.onmousemove = logMouseMove;
 
         function logMouseMove(e) {
@@ -202,7 +214,10 @@ width75 = window.innerWidth * 0.75;
 width100 = window.innerWidth;
 
 height0 = 0;
-height25 = window.innerHeight / 4;
+height25 = window.innerHeight * 0.35;
 height50 = window.innerHeight / 2;
-height75 = window.innerHeight * 0.75;
+height75 = window.innerHeight * 0.65;
 height100 = window.innerHeight;
+
+init();
+animate();
