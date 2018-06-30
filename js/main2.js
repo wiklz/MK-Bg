@@ -1,7 +1,7 @@
 if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
 var container, stats, controls;
-var camera, scene, renderer, light, spotLight, spotLight2, mesh, bg, mousePos, light;
+var camera, scene, renderer, light, spotLight, spotLight2, mesh, bg, mousePos;
 
 
 
@@ -53,7 +53,7 @@ function init() {
     // LIGHTS
     spotLight = new THREE.SpotLight(0xC5C584, 0.7, 29.5);
     spotLight.position.set( 1, 0.5, 5 );
-    spotLight.angle = 0.25;
+    spotLight.angle = 0.3;
     spotLight.penumbra = 1;
     spotLight.decay = 1.5;
     spotLight.castShadow = true;
@@ -64,23 +64,6 @@ function init() {
     spotLight2 = new THREE.AmbientLight(0xB2B2B2, 0.05);
 
     scene.add( spotLight2 );
-
-    // TODO
-    //         1
-    // spotLight.castShadow = true;
-    // spotLight.shadow.mapSize.width = 1024;
-    // spotLight.shadow.mapSize.height = 1024;
-    // spotLight.shadow.camera.near = 500;
-    // spotLight.shadow.camera.far = 4000;
-    // spotLight.shadow.camera.fov = 30;
-
-            // 2
-    // spotLight2.castShadow = true;
-    // spotLight2.shadow.mapSize.width = 1024;
-    // spotLight2.shadow.mapSize.height = 1024;
-    // spotLight2.shadow.camera.near = 500;
-    // spotLight2.shadow.camera.far = 4000;
-    // spotLight2.shadow.camera.fov = 30;
 
     //HELPERS
     // var spotLightHelper = new THREE.SpotLightHelper( spotLight );
@@ -112,7 +95,6 @@ function animate() {
     window.addEventListener( 'resize', onWindowResize, false );
     requestAnimationFrame( animate );
     if(bg){if(bg.children[0]){bg.children[0].receiveShadow = true;}}
-    if(bg.children[0]){bg.children[0].receiveShadow = true;}
     if (mesh) {
         spotLight.target = mesh;
         if(mesh.children[0]){mesh.children[0].castShadow = true;}
