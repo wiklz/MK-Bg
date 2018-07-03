@@ -1,7 +1,7 @@
 if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
 var container, stats, controls;
-var camera, scene, renderer, light, spotLight, spotLight2, mesh, bg, mousePos, light;
+var camera, scene, renderer, light, spotLight, spotLight2, mesh, bg, mousePos;
 
 
 
@@ -35,7 +35,7 @@ function init() {
 
     // CAMERA
     camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.25, 100 );
-    camera.position.set( 0, 0, 5 );
+    camera.position.set( 0, 0, 10 );
 
     // CONTROLS
     controls = new THREE.OrbitControls( camera );
@@ -51,43 +51,26 @@ function init() {
     controls.update();
 
     // LIGHTS
-    spotLight = new THREE.SpotLight(0xC5C584, 0.7, 29.5);
-    spotLight.position.set( 1, 0.5, 5 );
-    spotLight.angle = 0.25;
+    spotLight = new THREE.SpotLight(0xC5C584, 0.6, 35);
+    // spotLight.rotation.y = -0.5;
+    spotLight.position.set( 1.25, 1.25, 7 );
+    spotLight.angle = 0.4;
     spotLight.penumbra = 1;
     spotLight.decay = 1.5;
     spotLight.castShadow = true;
 
 
+
     scene.add( spotLight );
 
-    spotLight2 = new THREE.AmbientLight(0xB2B2B2, 0.05);
+    spotLight2 = new THREE.AmbientLight(0xB2B2B2, 0.1);
 
     scene.add( spotLight2 );
 
-    // TODO
-    //         1
-    // spotLight.castShadow = true;
-    // spotLight.shadow.mapSize.width = 1024;
-    // spotLight.shadow.mapSize.height = 1024;
-    // spotLight.shadow.camera.near = 500;
-    // spotLight.shadow.camera.far = 4000;
-    // spotLight.shadow.camera.fov = 30;
-
-            // 2
-    // spotLight2.castShadow = true;
-    // spotLight2.shadow.mapSize.width = 1024;
-    // spotLight2.shadow.mapSize.height = 1024;
-    // spotLight2.shadow.camera.near = 500;
-    // spotLight2.shadow.camera.far = 4000;
-    // spotLight2.shadow.camera.fov = 30;
-
     //HELPERS
     // var spotLightHelper = new THREE.SpotLightHelper( spotLight );
-    // var spotLightHelper2 = new THREE.SpotLightHelper( spotLight2 );
     // var axesHelper = new THREE.AxesHelper( 5 );
     // scene.add( spotLightHelper );
-    // scene.add( spotLightHelper2 );
     // scene.add( axesHelper );
 
     renderer = new THREE.WebGLRenderer( { antialias: true } );
@@ -112,7 +95,7 @@ function animate() {
     window.addEventListener( 'resize', onWindowResize, false );
     requestAnimationFrame( animate );
     if(bg){if(bg.children[0]){bg.children[0].receiveShadow = true;}}
-    if(bg.children[0]){bg.children[0].receiveShadow = true;}
+    // if(bg.children[0]){bg.children[0].receiveShadow = true;}
     if (mesh) {
         spotLight.target = mesh;
         if(mesh.children[0]){mesh.children[0].castShadow = true;}
@@ -128,7 +111,7 @@ function animate() {
 
             // X axis
             if(mousePos.y <= height25){
-                mesh.rotation.x -= 0.001;
+                mesh.rotation.x -= 0.0013;
 
                 if(mesh.rotation.x <= -0.47){
                     mesh.rotation.x = -0.47;
@@ -137,14 +120,14 @@ function animate() {
             else if(mousePos.y > height25 && mousePos.y < height75){
 
                 if (mesh.rotation.x < 0){
-                    mesh.rotation.x += 0.001;
+                    mesh.rotation.x += 0.0013;
 
                     if (mesh.rotation.x >= 0){
                         mesh.rotation.x = 0;
                     }
                 }
                 if (mesh.rotation.x > 0){
-                    mesh.rotation.x -= 0.001;
+                    mesh.rotation.x -= 0.0013;
 
                     if (mesh.rotation.x <= 0){
                         mesh.rotation.x = 0;
@@ -152,7 +135,7 @@ function animate() {
                 }
             }
             else {
-                mesh.rotation.x += 0.001;
+                mesh.rotation.x += 0.0013;
 
                 if(mesh.rotation.x >= 0.47){
                     mesh.rotation.x = 0.47;
@@ -161,7 +144,7 @@ function animate() {
 
             // Y axis
             if(mousePos.x <= width25){
-                mesh.rotation.y -= 0.001;
+                mesh.rotation.y -= 0.0013;
 
                 if(mesh.rotation.y <= -0.47){
                     mesh.rotation.y = -0.47;
@@ -170,14 +153,14 @@ function animate() {
             else if(mousePos.x > width25 && mousePos.x < width75){
 
                 if (mesh.rotation.y < 0){
-                    mesh.rotation.y += 0.001;
+                    mesh.rotation.y += 0.0013;
 
                     if (mesh.rotation.y >= 0){
                         mesh.rotation.y = 0;
                     }
                 }
                 if (mesh.rotation.y > 0){
-                    mesh.rotation.y -= 0.001;
+                    mesh.rotation.y -= 0.0013;
 
                     if (mesh.rotation.y <= 0){
                         mesh.rotation.y = 0;
@@ -185,7 +168,7 @@ function animate() {
                 }
             }
             else {
-                mesh.rotation.y += 0.001;
+                mesh.rotation.y += 0.0013;
 
                 if(mesh.rotation.y >= 0.47){
                     mesh.rotation.y = 0.47;
@@ -208,15 +191,15 @@ function render() {
 // CAPTURING MOUSE STATES VARS
 var width100, width75, width50, width25, width0, height100, height75, height50, height25, height0;
 width0 = 0;
-width25 = window.innerWidth / 4;
+width25 = window.innerWidth * 0.4;
 width50 = window.innerWidth / 2;
-width75 = window.innerWidth * 0.75;
+width75 = window.innerWidth * 0.6;
 width100 = window.innerWidth;
 
 height0 = 0;
-height25 = window.innerHeight * 0.35;
+height25 = window.innerHeight * 0.4;
 height50 = window.innerHeight / 2;
-height75 = window.innerHeight * 0.65;
+height75 = window.innerHeight * 0.6;
 height100 = window.innerHeight;
 
 init();
